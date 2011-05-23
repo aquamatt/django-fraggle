@@ -34,7 +34,13 @@ class Common(TestCase):
             content='h2. test'
         )
         self.fragment2.save()
-        
+
+        self.fragment3 = Fragment(
+            title='test_form',
+            content='<form>test</form>',
+        )        
+        self.fragment3.save()
+
     def tearDown(self):
         "Execute after every test case"
         Fragment.objects.all().delete()

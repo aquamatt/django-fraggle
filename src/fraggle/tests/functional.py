@@ -27,7 +27,7 @@ class Functional(Common):
         login_as_admin()
         response = self.client.get('/admin/fraggle/fragment/%s' 
             % str(fragment1.id))
-        self.assert_code(response, 302)
+        self.assert_code(response, 301)
         response = self.client.get('/admin/fraggle/fragment/%s/' 
             % str(fragment1.id))
         self.assert_code(response, 200)

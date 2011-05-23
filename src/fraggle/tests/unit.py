@@ -7,7 +7,7 @@ class Unit(Common):
     "Unit test suite"
 
     def test_object_creation(self):
-        self.assert_counts([2], [Fragment])
+        self.assert_counts([3], [Fragment])
 
     def test_creation_of_fragments(self):
         Fragment.objects.all().delete()
@@ -43,11 +43,11 @@ class Unit(Common):
         self.assert_counts([1], [Fragment])
         self.assert_equal(fragment1.title, '')
         self.assert_equal(fragment1.content, 'test')
-        
+
     def test_html_is_saved_from_content(self):
-        self.assert_equal(self.fragment1.html,"<p>test</p>")
-        self.assert_equal(self.fragment2.html,"<h2>test</h2>")
+        self.assert_equal(self.fragment1.html,"\t<p>test</p>")
+        self.assert_equal(self.fragment2.html,"\t<h2>test</h2>")
         
     def test_html_from_formatted_content(self):
-        self.assert_equal(self.fragment1.transform_content(),"<p>test</p>")
-        self.assert_equal(self.fragment2.transform_content(),"<h2>test</h2>")
+        self.assert_equal(self.fragment1.transform_content(),"\t<p>test</p>")
+        self.assert_equal(self.fragment2.transform_content(),"\t<h2>test</h2>")

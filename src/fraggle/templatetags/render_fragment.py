@@ -11,22 +11,25 @@ from fraggle.models import Fragment
 
 register = template.Library()
 
-@register.simple_tag
-def render_fragment(fragment_id):
+@register.inclusion_tag("_fraggle_fragment.html", takes_context = True)
+def render_fragment(context, fragment_title):
     """
     Render an html fragment.
 
     Usage::
         {% load render_fragment %}
-        {% render_fragment [id] %}
+        {% render_fragment title %}
 
     """
-    try:
-        int(fragment_id)
-    except ValueError:
-        return ''
     try: 
-        fragment = Fragment.objects.get(pk=fragment_id)
-        return mark_safe(force_unicode(smart_str(fragment.html)))
-    except ObjectDoesNotExist:
-        return ''
+        fragment = Fragment.objects.get(title=fragment_title)
+        content = force_unicode(smart_str(fragment.html))
+        if "</form" in content:                                                      
+            content = content.replace("</form>", "{% csrf_token %}</form>")
+        content = mark_safe(content)
+
+    except Fragment.DoesNotExist:
+        content = ""
+        fragment = ""
+
+    return dict(content = content, fragment = fragment)
