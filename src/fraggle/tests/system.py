@@ -18,7 +18,7 @@ class System(Common):
             "{% load render_fragment %}{% render_fragment 'fragment2' %}")
 
     def test_transform_with_form_elements(self):
-        self.assert_render("<div class='fraggle' id='fragment_3'><form>test{% csrf_token %}</form></div>",
+        self.assert_render("<div class='fraggle' id='fragment_3'><form>test</form></div>",
             "{% load render_fragment %}{% render_fragment 'test_form' %}")
         
     def test_passing_invalid_fragment_identifier_renders_nothing(self):
