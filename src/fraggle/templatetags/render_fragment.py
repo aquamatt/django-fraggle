@@ -6,7 +6,7 @@ from django import template
 from django.utils.encoding import smart_str, force_unicode
 from django.utils.safestring import mark_safe
 from django.core.exceptions import ObjectDoesNotExist
-
+from django.template import Template
 from fraggle.models import Fragment
 
 register = template.Library()
@@ -18,7 +18,7 @@ def render_fragment(context, fragment_title):
 
     Usage::
         {% load render_fragment %}
-        {% render_fragment title %}
+        {% render_fragment 'title' %}
 
     """
     try: 
@@ -26,7 +26,7 @@ def render_fragment(context, fragment_title):
         content = force_unicode(smart_str(fragment.html))
         if "</form" in content:                                                      
             content = content.replace("</form>", "{% csrf_token %}</form>")
-        content = mark_safe(content)
+        content = mark_safe(Template(content).render(context))
 
     except Fragment.DoesNotExist:
         content = ""
